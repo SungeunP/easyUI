@@ -10,7 +10,14 @@
   <script type="text/javascript" src="./jquery.min.js"></script>
   <script type="text/javascript" src="./jquery.easyui.min.js"></script>
   <script src="./handlebars-v4.0.12.js"></script>
-
+  <link rel="stylesheet" type="text/css" href="./css/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="./css/bootstrap-theme.css.map">
+  <link rel="stylesheet" type="text/css" href="./css/bootstrap-theme.min.css">
+  <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="./css/bootstrap.css.map">
+  <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./css/topic_builder.css">
+  
 
 
   <script src="./utils.js"></script>
@@ -18,35 +25,124 @@
   <script src="./index.js"></script>
   <!-- handlebars templates here -->
 
+  <script id="response-template" type="text/x-handlebars-template">
+    <div class="response">
+        <h2>
+            <span>답변</span>
+            <select name="" id="">
+                <option value="default">기본</option>
+                <option value="hs">수평스크롤</option>
+                <option value="hp">수평배치</option>
+                <option value="vs">수직스크롤</option>
+                <option value="vp">수직배치</option>
+            </select>
+            <button class="delete-response-btn"><i class="fas fa-times"></i></button>
+        </h2>
+        <p><span>조건문</span><input type="text" placeholder="조건문을 입력해주십시오"></p>
+
+        <!-- 오브젝트 추가 버튼 -->
+        <div class='add-obj-btn obj-area'>
+            <span>
+                <button class="AddTextComponent">텍스트</button>
+                <button class="AddImageComponent">이미지</button>
+                <button class="AddButtonComponent">버튼</button>
+                <button class="AddGroupComponent">그룹</button>
+            </span>
+        </div>
+    </div>
+  </script>
+
+  <script id="text-template" type="text/x-handlebars-template">
+    <div class="obj obj-text">
+        <h2>
+            <span>텍스트</span>
+            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+        </h2>
+        <p><span>메시지</span><input type="text"></p>
+    </div>
+  </script>
+
+  <script id="button-template" type="text/x-handlebars-template">
+    <div class="obj obj-btn">
+        <h2>
+            <span>버튼</span>
+            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+        </h2>
+
+        <ul>
+            <li>
+                <p>이름</p>
+                <input type="text">
+            </li>
+            <li>
+                <p>리소스</p>
+                <input type="text">
+            </li>
+            <li>
+                <p>값</p>
+                <input type="text">
+            </li>
+        </ul>
+    </div>
+  </script>
+
+  <script id="image-template" type="text/x-handlebars-template">
+    <div class="obj obj-img">
+        <h2>
+            <span>이미지</span>
+            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+        </h2>
+
+        <p><img src="./image/image.png" alt="이미지 미리보기"></p>
+        <ul>
+            <li>
+                <p>이름</p>
+                <input type="text">
+            </li>
+            <li>
+                <p>리소스</p>
+                <input type="file">
+            </li>
+            <li>
+                <p>값</p>
+                <input type="text">
+            </li>
+        </ul>
+    </div>
+  </script>
+
   <script id="group-template" type="text/x-handlebars-template">
-    <div id="group{{index}}" class="response_group">
-        <h2>This is Group</h2>
-        <button id="AddTextComponent">Text</button>
-        <button id="AddButtonComponent">Button</button>
-        <button id="AddImageComponent">Image</button>
-        <button id="AddGroupComponent">Group</button>
-    </div>
-  </script>
+    <div class="obj obj-group">
+        <h2>
+            <span>그룹</span>
+            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+            <select name="" id="">
+                <option value="default">기본</option>
+                <option value="hs">수평스크롤</option>
+                <option value="hp">수평배치</option>
+                <option value="vs">수직스크롤</option>
+                <option value="vp">수직배치</option>
+            </select>
+            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+        </h2>
 
-  <script id="entry-template" type="text/x-handlebars-template">
-    <div class="response_text">
-      <h2>This is Text</h2>
-      <input type="text" value="{{text}}" />
-    </div>
-  </script>
-
-  <script id="entry-template" type="text/x-handlebars-template">
-    <div class="response_button">
-      <h2>This is Button</h2>
-      <input type="text" value="{{name}}" />
-      <input type="text" value="{{resource}}" />
-      <input type="text" value="{{value}}" />
-    </div>
-  </script>
-
-  <script id="entry-template" type="text/x-handlebars-template">
-    <div class="response_image">
-        <h2>This is Image</h2>
+        <!-- 오브젝트 추가 버튼 -->
+        <div class='add-obj-btn obj-area'>
+            <span>
+                <button class="AddTextComponent">텍스트</button>
+                <button class="AddImageComponent">이미지</button>
+                <button class="AddButtonComponent">버튼</button>
+                <button class="AddGroupComponent">그룹</button>
+            </span>
+        </div>
+        
     </div>
   </script>
 
@@ -54,6 +150,7 @@
 </head>
 
 <body>
+  <button id="group123" class="commonClass">테스트 버튼</button>
   <button id="CreateTopic" style="width:100%; height:50px">토픽 만들기</button>
   <H2>질문 리스트</H2>
   <div style="margin:20px 0;"></div>
@@ -93,6 +190,14 @@
     </select>
   </div>
   <div id="TopicDescription"></div><br />
+  </div>
+
+  <br />
+  <H2>질문 Response</H2>
+  <div>
+    <div id="QuestionResponse">
+
+    </div>
   </div>
 
 </body>

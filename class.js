@@ -1,5 +1,3 @@
-var ResponseFactory = new ResponseFactory();
-
 function QuestionList() {
   this.index = 0;
 
@@ -121,48 +119,3 @@ function TopicInfo() {
   }
 }
 
-function ResponseContext() {
-  this.responses = new Array();
-
-  this.addResponse = (response) => {
-    this.responses.push(ResponseFactory.createResponse());
-  }
-}
-
-function ResponseFactory() {
-  this.index = 0;
-
-  this.createResponse = () => {
-    return new Response(index);
-  }
-}
-
-function Response(index) {
-  this.answers = new Array();
-
-  this.initResponse = () => {
-    this.responses.push(answerFactory.createAnswer());
-  }
-
-  this.pushAnswer = () => {
-    this.answers.push(answerFactory.createAnswer());
-  }
-}
-
-function AnswerFactory() {
-  this.index = 0;
-
-  this.createAnswer = () => {
-    console.log("createAnswer Index : " + this.index);
- 
-    return new Answer(this.index);
-    this.index++;
-  }
-}
-
-function Answer(index) {
-  this.elementID = "answer"+index;
-  this.condition = "";
-
-  
-}

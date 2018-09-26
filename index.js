@@ -6,8 +6,6 @@ var EntityValueInput = new EntityValueInput();
 var TopicInfo = new TopicInfo();
 var Topic = new Topic();
 
-var Response = new Response();
-
 // refresh Questionlist
 _loadQuestionList = (list) => {
   const _textField = "title";
@@ -28,14 +26,8 @@ _loadQuestionList = (list) => {
     },
     // Question onSelected event
     onSelect: function (index, row) {
-      console.log(index)
-      console.log(row)
-      console.log(row.data);
-      var temp = row.data
-      console.log(Object.keys(temp).length);
-      if (Object.keys(temp).length == 0) {
-        
-        _loadResponse(Response);
+      if (Object.keys(row.data).length == 0) { // 질문이 만들어 진 후 init 상태
+        _loadResponse(row.data);
       }
     }
   })
@@ -73,9 +65,17 @@ _loadEntityList = (list) => {
     onSelect: function (index, row) {
       console.log(index)
       console.log(row)
-      
     }
   })
+}
+
+_loadResponse = (response) => {
+  var source = document.getElementById("response-template").innerHTML;
+  var template = Handlebars.compile(source);
+  var context = { title: "My New Post", body: "This is my first post!" };
+  var html = template(context);
+  console.log(html);
+  document.getElementById("QuestionResponse").innerHTML = html;
 }
 
 // 현재 선택된 행 삭제 (entityList)
@@ -88,25 +88,6 @@ _deleteEntityListCurrentRow = () => {
   }
   $("#entityList").datalist('deleteRow', selected_row.index);
   return false;
-}
-
-_loadResponse = (Response) => {
-  var compiledHTML = "";
-  // inspectGroups
-  for (i = 0 ; i < Response.responses.length ; i++) {
-    compiledHTML +=_getHTMLTemplate("group-template",{});
-    console.log(Response.responses[i]);
-    console.log(compiledHTML);
-  }
-  return compiledHTML;
-}
-
-inspectGroups = (body) => {
-  for (i = 0 ; i < body.length ; i++) {
-    if (body[i].type == "group") {
-      this.inspectGroups(body[i].body);
-    }
-  }
 }
 
 // 모든 Question들의 index를 정렬
@@ -123,7 +104,7 @@ _sort2All = (list) => {
 _sort2BiggerThanThis = (index) => {
 
 }
- 
+
 /* ========== */
 
 _createResponseDOM_test = () => {
@@ -236,26 +217,51 @@ _DOMLoaded = () => {
     console.log(EntityList);
     Topic.createTopic(TopicInfo, QuestionList, EntityList);
   });
-  
+
   // Response Text 컴포넌트 추가
-  $("#AddTextComponent").on("click", function () {
-    
+  $(document).on("click",".AddTextComponent",function () {
+    var source = document.getElementById("text-template").innerHTML;
+    var template = Handlebars.compile(source);
+    var context = {};
+    var html = template(context);
+    console.log(html);
+    $(this).parent().parent().append(html);
   });
 
   // Response Button 컴포넌트 추가
-  $("#AddButtonComponent").on("click", function () {
-    
+  $(document).on("click",".AddButtonComponent", function () {
+    var source = document.getElementById("button-template").innerHTML;
+    var template = Handlebars.compile(source);
+    var context = {};
+    var html = template(context);
+    console.log(html);
+    $(this).parent().parent().append(html);
   });
 
   // Response Image 컴포넌트 추가
-  $("#AddImageComponent").on("click", function () {
-    
+  $(document).on("click",".AddImageComponent", function () {
+    var source = document.getElementById("image-template").innerHTML;
+    var template = Handlebars.compile(source);
+    var context = {};
+    var html = template(context);
+    console.log(html);
+    $(this).parent().parent().append(html);
   });
 
   // Response Group 컴포넌트 추가
-  $("#AddGroupComponent").on("click", function () {
-    
+  $(document).on("click",".AddGroupComponent",function () {
+    var source = document.getElementById("group-template").innerHTML;
+    var template = Handlebars.compile(source);
+    var context = {};
+    var html = template(context);
+    console.log(html);
+    $(this).parent().parent().append(html);
   });
+  
+  // 이 컴포넌트 삭제
+  $(document).on("click",".delete-obj-btn", function (){
+    $(this).parent().parent().remove();
+  })
 }
 
 // 진입점 (After loaded dom)
