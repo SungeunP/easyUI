@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<HTML>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Basic DataList - jQuery EasyUI Demo</title>
+  <link rel="stylesheet" type="text/css" href="./themes/default/easyui.css">
+  <link rel="stylesheet" type="text/css" href="./themes/icon.css">
+  <link rel="stylesheet" type="text/css" href="./demo/demo.css">
+  <script type="text/javascript" src="./jquery.min.js"></script>
+  <script type="text/javascript" src="./jquery.easyui.min.js"></script>
+  <script src="./handlebars-v4.0.12.js"></script>
+
+
+
+  <script src="./utils.js"></script>
+  <script src="./class.js"></script>
+  <script src="./index.js"></script>
+  <!-- handlebars templates here -->
+
+  <script id="group-template" type="text/x-handlebars-template">
+    <div id="group{{index}}" class="response_group">
+        <h2>This is Group</h2>
+        <button id="AddTextComponent">Text</button>
+        <button id="AddButtonComponent">Button</button>
+        <button id="AddImageComponent">Image</button>
+        <button id="AddGroupComponent">Group</button>
+    </div>
+  </script>
+
+  <script id="entry-template" type="text/x-handlebars-template">
+    <div class="response_text">
+      <h2>This is Text</h2>
+      <input type="text" value="{{text}}" />
+    </div>
+  </script>
+
+  <script id="entry-template" type="text/x-handlebars-template">
+    <div class="response_button">
+      <h2>This is Button</h2>
+      <input type="text" value="{{name}}" />
+      <input type="text" value="{{resource}}" />
+      <input type="text" value="{{value}}" />
+    </div>
+  </script>
+
+  <script id="entry-template" type="text/x-handlebars-template">
+    <div class="response_image">
+        <h2>This is Image</h2>
+    </div>
+  </script>
+
+  <!-- handlebars templates here -->
+</head>
+
+<body>
+  <button id="CreateTopic" style="width:100%; height:50px">토픽 만들기</button>
+  <H2>질문 리스트</H2>
+  <div style="margin:20px 0;"></div>
+
+  <div>
+    <ul>
+      <button id="appendQuestionRow">행 추가!</button>
+      <button id="deleteQuestionCurrentRow">현재 행 삭제!</button>
+    </ul>
+    <div id="questionList">
+
+    </div>
+  </div>
+
+  <br />
+  <H2>엔티티 리스트</H2>
+  <div>
+    <ul>
+      <button id="appendEntityRow">엔티티 추가!</button>
+      <button id="deleteEntityCurrentRow">선택된 엔티티 삭제!</button>
+
+      <input id="entityName" class="easyui-textbox" label="Entity 이름:" labelPosition="top" multiline="true">
+      <input id="entityValue" class="easyui-textbox" label="Value:" labelPosition="top" multiline="true" style="height:150px">
+    </ul>
+    <div id="entityList">
+
+    </div>
+  </div>
+
+  <br />
+  <H2>토픽 정보</H2>
+  <div>
+    <div id="TopicName"></div><br />
+    <select id="TopicPublic" name="state" class="easyui-combobox" style="width:90px">
+      <option value="false" selected>비공개</option>
+      <option value="true">공개</option>
+    </select>
+  </div>
+  <div id="TopicDescription"></div><br />
+  </div>
+
+</body>
+
+</HTML>
