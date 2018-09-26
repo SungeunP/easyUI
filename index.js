@@ -7,10 +7,6 @@ var TopicInfo = new TopicInfo();
 var Topic = new Topic();
 
 var Response = new Response();
-var Response_group = new Response_group();
-var Response_text = new Response_text();
-var Response_button = new Response_button();
-var Response_image = new Response_image();
 
 // refresh Questionlist
 _loadQuestionList = (list) => {
@@ -34,10 +30,11 @@ _loadQuestionList = (list) => {
     onSelect: function (index, row) {
       console.log(index)
       console.log(row)
-      if (row['data'].keys().length == 0) {
-        var Response = new Response();
-        Response.initResponse();
-        console.log(Response);
+      console.log(row.data);
+      var temp = row.data
+      console.log(Object.keys(temp).length);
+      if (Object.keys(temp).length == 0) {
+        
         _loadResponse(Response);
       }
     }
@@ -97,8 +94,11 @@ _loadResponse = (Response) => {
   var compiledHTML = "";
   // inspectGroups
   for (i = 0 ; i < Response.responses.length ; i++) {
+    compiledHTML +=_getHTMLTemplate("group-template",{});
     console.log(Response.responses[i]);
+    console.log(compiledHTML);
   }
+  return compiledHTML;
 }
 
 inspectGroups = (body) => {

@@ -1,3 +1,5 @@
+var ResponseFactory = new ResponseFactory();
+
 function QuestionList() {
   this.index = 0;
 
@@ -119,115 +121,48 @@ function TopicInfo() {
   }
 }
 
-// ROOT 답변 리스트 
-function Response() {
+function ResponseContext() {
   this.responses = new Array();
 
+  this.addResponse = (response) => {
+    this.responses.push(ResponseFactory.createResponse());
+  }
+}
+
+function ResponseFactory() {
+  this.index = 0;
+
+  this.createResponse = () => {
+    return new Response(index);
+  }
+}
+
+function Response(index) {
+  this.answers = new Array();
+
   this.initResponse = () => {
-    this.responses.push(new Answer());
+    this.responses.push(answerFactory.createAnswer());
+  }
+
+  this.pushAnswer = () => {
+    this.answers.push(answerFactory.createAnswer());
   }
 }
 
-// 답변
-// -> 답변은 질문이 id값
-function Answer() {
+function AnswerFactory() {
+  this.index = 0;
+
+  this.createAnswer = () => {
+    console.log("createAnswer Index : " + this.index);
+ 
+    return new Answer(this.index);
+    this.index++;
+  }
+}
+
+function Answer(index) {
+  this.elementID = "answer"+index;
   this.condition = "";
-  this.layout = "default";
-  this.body = new Array();
 
-  this.addComponent = (type) => {
-    var component = new Object();
-    switch (type) {
-      case "text":
-        component = new Response_text("");
-        break;
-      case "button":
-        component = new Response_button("", "", "");
-        break;
-      case "image":
-        component = new Response_image("");
-        break;
-      case "group":
-        component = new Response_group();
-        break;
-      default:
-        console.log("'" + type + "' is undefined (text, button, image, group)");
-        return true;
-    }
-    this.body.push(component);
-  }
-}
-
-function Response_group(id) {
-  this.id = 0;
-  this.elementId = id;
-  // default(기본), HS(수평 스크롤), HP(수평 배치), VS(수직스크롤), VP(수직배치)
-  this.layout = "default";
-  this.body = new Array();
-
-  this.addComponent = (type) => {
-    var component = new Object();
-    switch (type) {
-      case "text":
-        component = new Response_text(this.id);
-        break;
-      case "button":
-        component = new Response_button("", "", "");
-        break;
-      case "image":
-        component = new Response_image("");
-        break;
-      case "group":
-        component = new Response_group();
-        break;
-      default:
-        console.log("'" + type + "' is undefined (text, button, image, group)");
-        return true;
-    }
-    this.body.push(component);
-    this.id++;
-  }
-}
-
-function Response_text(id) {
-  this.type = "text";
-  this.elementId = id;
-  this.value = "";
-
-  this.setValue = (value) => {
-    this.value = value;
-  }
-}
-
-function Response_image(id) {
-  this.type = "image";
-  this.elementId = id;
-  this.path = "";
-  this.value = "";
-
-  this.setPath = (path) => {
-    this.path = path;
-  }
-
-  this.setValue = (value) => {
-    this.value = value;
-  }
-}
-
-function Response_button(id) {
-  this.type = "button";
-  this.elementId = id;
-  this.name = "";
-  this.resource = "";
-  this.value = "";
-
-  this.setName = (name) => {
-    this.name = name;
-  }
-  this.setResource = (resource) => {
-    this.resource = resource;
-  }
-  this.setValue = (value) => {
-    this.value = value;
-  }
+  
 }
