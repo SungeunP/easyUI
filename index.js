@@ -7,30 +7,143 @@ var TopicInfo = new TopicInfo();
 var Topic = new Topic();
 
 // refresh Questionlist
-_loadQuestionList = (list) => {
+_loadQuestionList = (list,selectIndex) => {
   const _textField = "title";
   const _dataField = "data";
   const _title = "질문 리스트";
+  console.log(list);
   $("#questionList").datalist({
     title: _title,
     data: list,
     textField: _textField,
     dataField: _dataField,
     width: 400,
-    height: 500,
+    height: 500, 
     // Custom TextField
     textFormatter: function (value, row) {
       console.log(value)
       console.log(row)
       return '<span>' + value + '</span>';
     },
+    // 질문 선택 전처리
+    onBeforeSelect: function (index,row) {
+      console.log("EasyUI.datalist.onBeforeSelect");
+      console.log($("#questionList").datalist("getRows"));
+      var before_rows = $("#questionList").datalist("getRows");
+      // 이전에 선택되어있던 질문
+      var beforeQuestion = $(this).datalist("getSelected");
+      if (beforeQuestion != null) { // !init (맨 처음 이외)
+        console.log("EasyUI.datalist.onBeforeSelect not NULL");
+        before_rows[index].data = _parsingResponseDOM($("#QuestionResponse"));
+        // 변경한 row.data 갱신
+        $("#questionList").datalist({
+          data : before_rows
+        })
+      }
+      console.log();
+    },
     // Question onSelected event
     onSelect: function (index, row) {
-      if (Object.keys(row.data).length == 0) { // 질문이 만들어 진 후 init 상태
-        _loadResponse(row.data);
-      }
+      // Note : 전처리기에서 한 번 파싱해서 저장하기때문에 그냥 _loadResponse하면 됨
+      // 09-27 10:00 Note : 선택해놓고 addQuestion하면 ResponseView가 초기화되는데 이는 아직 BeofreSelect에서
+      // json파싱 후 data에 저장을 안해줘서 그냥 빈 오브젝트({}) 가 넘어가 초기화되는것
+      // addQuestion에서 임의select => beforeSelectEvent (저장 미구현) => selectEvent에서 그냥 빈 데이터 load
+      _loadResponse(row.data);
+    },
+    getSelected: function () {
+      console.log("first selected====");
     }
   })
+  // 이전에 선택됐던 Question이 있을 시 선택 유지
+  if (selectIndex != null) {
+    $("#questionList").datalist("selectRow",selectIndex);
+  }
+}
+
+// 받은 DOM을 json으로 파싱
+_parsingResponseDOM = (rootElem) => {
+  var response_arr = new Array();
+  var Response_DOM = rootElem.children(".response");
+  
+  var response_json = null;
+  for (i = 0 ; i < Response_DOM.length ; i++) {
+    var responseDOM = Response_DOM[i];
+    response_json = new Object();
+    var body = null;
+    var obj_area = $(responseDOM).children(".obj-area");
+
+    // 레이아웃 옵션 Selector
+    var e = $(responseDOM).children(".layoutOptions");
+    var layout_option = e[0].options[e[0].selectedIndex].value;
+    // 레이아웃 옵션 put
+    console.log(layout_option);
+    response_json.layout = layout_option;
+    
+    // 조건문 put
+    response_json.condition = $(responseDOM).children(".condition").val();
+    console.log($(obj_area));
+    response_json.body = _parsingResponseDOM_sub($(obj_area));
+  }
+
+  return JSON.stringify(response_json); // stringify?
+}
+
+// obj-area 파싱 함수 (재귀)
+_parsingResponseDOM_sub = (subDOM) => {
+  var components = $(subDOM).children(".obj");
+  console.log($(components)[0]);
+  var body_arr = new Array();
+
+  for (i= 0 ; i < $(components).length ; i++) {
+    var component = $(components)[i];
+    var className = $(component).attr("class").split(' ')[1];
+    switch(className){
+      case "obj-text":
+      // console.log("obj-text");
+      console.log("obj-text:" + $(components).children(".obj_text_message").val());
+      var temp =  $(components).children("p");
+      temp =  $(temp).children(".obj_text_message");
+      console.log();
+      body_arr.push({
+        "type" : "text",
+        "value" :$(temp).val()
+      });
+      break;
+      case "obj-image":
+      console.log("obj-image"); 
+      body_arr.push({
+        "type": "image",
+        "path": "/test.jpg",
+        "value": "<넘길 값:str>"
+      });
+      break;
+      case "obj-button":
+      console.log("obj-button");
+      body_arr.push({
+        "type": "button",
+        "name": "buttonName",
+        "resource": "?",
+        "value": "value"
+      });
+      break;
+      case "obj-group":
+      console.log("obj-group");
+      body_arr.push({});
+      break;
+      default:
+
+    }
+  }
+}
+
+// JSON을 DOM으로 파싱
+_parsingResponseJSON = (json) => {
+
+}
+
+// JSON을 DOM으로 파싱 (재귀)
+_parsingResponseJSON_sub = (json_sub) => {
+
 }
 
 // 현재 선택된 행 삭제 (questionList)
@@ -69,12 +182,15 @@ _loadEntityList = (list) => {
   })
 }
 
+_loadQuestionView = () => {
+
+}
+
 _loadResponse = (response) => {
   var source = document.getElementById("response-template").innerHTML;
   var template = Handlebars.compile(source);
   var context = { title: "My New Post", body: "This is my first post!" };
   var html = template(context);
-  console.log(html);
   document.getElementById("QuestionResponse").innerHTML = html;
 }
 
@@ -124,7 +240,7 @@ _questionListFormatter = (value, row) => {
 
 // DOMContentLoaded evnet function
 _DOMLoaded = () => {
-  _loadQuestionList([]);
+  _loadQuestionList([],null);
 
   // 선택된 행 삭제 후 질문 리스트 index 정렬 후 다시 로드
   // EasyUI에서 제공하는 deleteRow가 index값을 맞춰주기 위해 정렬하는 과정이 들어감
@@ -134,17 +250,27 @@ _DOMLoaded = () => {
       // If not deleted then no sort datalist
       return true;
     }
-
+    
+    // Response Div empty
+    $("#QuestionResponse").empty();
+    
     // Sort and reload questionList
-    _loadQuestionList(_sort2All($("#questionList").datalist('getRows')));
+    _loadQuestionList(_sort2All($("#questionList").datalist('getRows')),null);
   });
 
   // Question객체 생성 후 EasyUI.datalist.appendRow
   // 생성되는 객체는 title만 temp값 accessModifier는 기본값 (false)
   $("#appendQuestionRow").on("click", function () {
+    var selected_row = $("#questionList").datalist('getSelected');
+    // 추가될 때 이전에 선택되있는 row가 있으면
+    // -> 추가할때 questionList를 refresh하는데 그러면 selection도 없어짐
+    if (selected_row != null) {
+      selected_row = selected_row.index;
+    }
+    console.log(selected_row);
     QL.addQuestion();
     // Sort and reload questionList
-    _loadQuestionList(_sort2All($("#questionList").datalist('getRows')));
+    _loadQuestionList(_sort2All($("#questionList").datalist('getRows')),selected_row);
   });
 
   _loadEntityList([]);
@@ -261,6 +387,20 @@ _DOMLoaded = () => {
   // 이 컴포넌트 삭제
   $(document).on("click",".delete-obj-btn", function (){
     $(this).parent().parent().remove();
+  })
+
+  // 이 리스폰스 삭제
+  $(document).on("click",".delete-response-btn", function() {
+    $(this).parent().parent().remove();
+  })
+
+  $("#AddResponse").on("click", function() {
+    var source = document.getElementById("response-template").innerHTML;
+    var template = Handlebars.compile(source);
+    var context = {};
+    var html = template(context);
+    console.log(html);
+    $(this).siblings("#QuestionResponse").append(html);
   })
 }
 

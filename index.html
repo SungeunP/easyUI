@@ -17,7 +17,7 @@
   <link rel="stylesheet" type="text/css" href="./css/bootstrap.css.map">
   <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="./css/topic_builder.css">
-  
+
 
 
   <script src="./utils.js"></script>
@@ -26,19 +26,19 @@
   <!-- handlebars templates here -->
 
   <script id="response-template" type="text/x-handlebars-template">
-    <div class="response">
+    <div class="response" style="border-style: solid; margin: 5px;">
         <h2>
             <span>답변</span>
-            <select name="" id="">
+        </h2>
+            <select class="layoutOptions" name="" id="">
                 <option value="default">기본</option>
                 <option value="hs">수평스크롤</option>
                 <option value="hp">수평배치</option>
                 <option value="vs">수직스크롤</option>
                 <option value="vp">수직배치</option>
             </select>
-            <button class="delete-response-btn"><i class="fas fa-times"></i></button>
-        </h2>
-        <p><span>조건문</span><input type="text" placeholder="조건문을 입력해주십시오"></p>
+            <button class="delete-response-btn">X<i class="fas fa-times"></i></button>
+        <p><span>조건문</span><input type="text" class="condition" placeholder="조건문을 입력해주십시오"></p>
 
         <!-- 오브젝트 추가 버튼 -->
         <div class='add-obj-btn obj-area'>
@@ -53,24 +53,24 @@
   </script>
 
   <script id="text-template" type="text/x-handlebars-template">
-    <div class="obj obj-text">
+    <div class="obj obj-text" style="border-style: solid; margin-bottom: 5px; margin-right: 5px;">
         <h2>
             <span>텍스트</span>
             <button class="up-btn"><i class="fas fa-caret-up"></i></button>
             <button class="down-btn"><i class="fas fa-caret-down"></i></button>
-            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+            <button class="delete-obj-btn">X<i class="fas fa-times"></i></button>
         </h2>
-        <p><span>메시지</span><input type="text"></p>
+        <p><span>메시지</span><input type="text" class="obj_text_message"></p>
     </div>
   </script>
 
   <script id="button-template" type="text/x-handlebars-template">
-    <div class="obj obj-btn">
+    <div class="obj obj-btn" style="border-style: solid; margin-bottom: 5px; margin-right: 5px;">
         <h2>
             <span>버튼</span>
             <button class="up-btn"><i class="fas fa-caret-up"></i></button>
             <button class="down-btn"><i class="fas fa-caret-down"></i></button>
-            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+            <button class="delete-obj-btn">X<i class="fas fa-times"></i></button>
         </h2>
 
         <ul>
@@ -91,12 +91,12 @@
   </script>
 
   <script id="image-template" type="text/x-handlebars-template">
-    <div class="obj obj-img">
+    <div class="obj obj-img" style="border-style: solid; margin-bottom: 5px; margin-right: 5px;">
         <h2>
             <span>이미지</span>
             <button class="up-btn"><i class="fas fa-caret-up"></i></button>
             <button class="down-btn"><i class="fas fa-caret-down"></i></button>
-            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+            <button class="delete-obj-btn">X<i class="fas fa-times"></i></button>
         </h2>
 
         <p><img src="./image/image.png" alt="이미지 미리보기"></p>
@@ -118,7 +118,7 @@
   </script>
 
   <script id="group-template" type="text/x-handlebars-template">
-    <div class="obj obj-group">
+    <div class="obj obj-group" style="border-style: solid; margin-bottom: 5px; margin-right: 5px;">
         <h2>
             <span>그룹</span>
             <button class="up-btn"><i class="fas fa-caret-up"></i></button>
@@ -130,7 +130,7 @@
                 <option value="vs">수직스크롤</option>
                 <option value="vp">수직배치</option>
             </select>
-            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+            <button class="delete-obj-btn">X<i class="fas fa-times"></i></button>
         </h2>
 
         <!-- 오브젝트 추가 버튼 -->
@@ -150,15 +150,14 @@
 </head>
 
 <body>
-  <button id="group123" class="commonClass">테스트 버튼</button>
   <button id="CreateTopic" style="width:100%; height:50px">토픽 만들기</button>
   <H2>질문 리스트</H2>
   <div style="margin:20px 0;"></div>
 
   <div>
     <ul>
-      <button id="appendQuestionRow">행 추가!</button>
-      <button id="deleteQuestionCurrentRow">현재 행 삭제!</button>
+      <button id="appendQuestionRow">행 추가</button>
+      <button id="deleteQuestionCurrentRow">현재 행 삭제</button>
     </ul>
     <div id="questionList">
 
@@ -169,8 +168,8 @@
   <H2>엔티티 리스트</H2>
   <div>
     <ul>
-      <button id="appendEntityRow">엔티티 추가!</button>
-      <button id="deleteEntityCurrentRow">선택된 엔티티 삭제!</button>
+      <button id="appendEntityRow">엔티티 추가</button>
+      <button id="deleteEntityCurrentRow">선택된 엔티티 삭제</button>
 
       <input id="entityName" class="easyui-textbox" label="Entity 이름:" labelPosition="top" multiline="true">
       <input id="entityValue" class="easyui-textbox" label="Value:" labelPosition="top" multiline="true" style="height:150px">
@@ -193,8 +192,26 @@
   </div>
 
   <br />
+
+  <H2>질문 정보</H2>
+  <ul>
+    <li class="question-text"><span>질문</span><input class="question" type="text" placeholder="질문을 입력해주십시오" value="커피 주문"></li>
+    <li class="previous"><span>이전 질문</span><input type="text" placeholder="이전 질문을 선택해주십시오" readonly><button class="delete-previous-btn"><i
+          class="fas fa-times"></i></button></li>
+    <li class="question-state">
+      <span>접근 허용 여부<button class="help-btn"><i class="fas fa-question-circle"></i></button></span>
+      <p class="hidden">접근 허용 여부 도움말</p>
+      <input type="checkbox" id="state-public">
+      <label for="state-public" class="checkbox"><span></span>공개</label>
+    </li>
+    <li>
+      <hr class="line">
+    </li>
+  </ul>
+
   <H2>질문 Response</H2>
   <div>
+    <button id="AddResponse">답변 추가하기</button>
     <div id="QuestionResponse">
 
     </div>
