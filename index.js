@@ -257,6 +257,22 @@ _DOMLoaded = () => {
     // Sort and reload questionList
     _loadQuestionList(_sort2All($("#questionList").datalist('getRows')),null);
   });
+  
+  // 선택된 행 삭제 후 질문 리스트 index 정렬 후 다시 로드
+  // EasyUI에서 제공하는 deleteRow가 index값을 맞춰주기 위해 정렬하는 과정이 들어감
+  $("#deleteQuestionCurrentRow").on("click", function () {
+    // deleted : false , not deleted(no selection) : true 
+    if (_deleteQuestionListCurrentRow()) {
+      // If not deleted then no sort datalist
+      return true;
+    }
+    
+    // Response Div empty
+    $("#QuestionResponse").empty();
+    
+    // Sort and reload questionList
+    _loadQuestionList(_sort2All($("#questionList").datalist('getRows')),null);
+  });
 
   // Question객체 생성 후 EasyUI.datalist.appendRow
   // 생성되는 객체는 title만 temp값 accessModifier는 기본값 (false)
@@ -391,7 +407,7 @@ _DOMLoaded = () => {
 
   // 이 리스폰스 삭제
   $(document).on("click",".delete-response-btn", function() {
-    $(this).parent().parent().remove();
+    $(this).parent().remove();
   })
 
   $("#AddResponse").on("click", function() {
