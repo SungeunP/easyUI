@@ -21,29 +21,29 @@ _loadQuestionList = (list, selectIndex) => {
     height: 500,
     // Custom TextField
     textFormatter: function (value, row) {
-      console.log(value)
-      console.log(row)
       return '<span>' + value + '</span>';
     },
     // 질문 선택 전처리
     // -> 이전 질문의 ResponseDOM을 파싱하여 this.data 에 저장
     onBeforeSelect: function (index, row) {
-      console.log("EasyUI.datalist.onBeforeSelect");
-      console.log($("#questionList").datalist("getRows"));
-      var before_rows = $("#questionList").datalist("getRows");
+      console.log(row);
+      var before_rows = $(this).datalist("getRows");
       // 이전에 선택되어있던 질문
       var beforeQuestion = $(this).datalist("getSelected");
+      // 이전에 선택되어있던 질문의 index
+      
+      console.log(beforeQuestion);
       if (beforeQuestion != null) { // !init (맨 처음 이외)
         console.log("EasyUI.datalist.onBeforeSelect not NULL");
+        console.log("beforeSelect Index:" + beforeQuestion.index);
         // Parsing
-        before_rows[index].data = _parsingResponseDOM($("#QuestionResponse"));
+        before_rows[beforeQuestion.index].data = _parsingResponseDOM($("#QuestionResponse"));
 
         // 변경한 row.data 갱신
         $("#questionList").datalist({
           data: before_rows
         })
       }
-      console.log();
     },
     // Question onSelected event
     onSelect: function (index, row) {
@@ -52,6 +52,7 @@ _loadQuestionList = (list, selectIndex) => {
       // json파싱 후 data에 저장을 안해줘서 그냥 빈 오브젝트({}) 가 넘어가 초기화되는것
       // addQuestion에서 임의select => beforeSelectEvent (저장 미구현) => selectEvent에서 그냥 빈 데이터 load
       console.log(row);
+      console.log(_parsingResponseJSON(row.data));
       _loadResponse(row.data);
     },
     getSelected: function () {
@@ -68,7 +69,7 @@ _loadQuestionList = (list, selectIndex) => {
 _parsingResponseDOM = (rootElem) => {
   var response_arr = new Array();
   var Response_DOM = $(rootElem).children(".response");
-
+  console.log(Response_DOM);
   var response_json = null;
   for (i = 0; i < Response_DOM.length; i++) {
     var responseDOM = Response_DOM[i];
@@ -84,12 +85,14 @@ _parsingResponseDOM = (rootElem) => {
     response_json.layout = layout_option;
 
     // 조건문 put
-    response_json.condition = $(responseDOM).children(".condition").val();
+    response_json.condition = $(responseDOM).children("p").children(".condition").val();
     console.log($(obj_area));
     response_json.body = _parsingResponseDOM_sub($(obj_area));
+    
+    response_arr.push(response_json);
   }
 
-  return JSON.stringify(response_json); // stringify?
+  return response_arr; // stringify?
 }
 
 // obj-area 파싱 함수 (재귀)
@@ -131,7 +134,7 @@ _parsingResponseDOM_sub = (subDOM) => {
           "type": "image",
           "name": $(nameInput).val(),
           // ajax통신을 통해 받아온 경로를 elem에 바인딩 후 뿌려줌
-          "path": $(imageSource).val(),
+          "path": $(imageSource).attr("id"),
           "value": $(valueInput).val()
         });
         break;
@@ -158,7 +161,7 @@ _parsingResponseDOM_sub = (subDOM) => {
         body_arr.push({
           "type": "group",
           "layout": "default",
-          body: _parsingResponseDOM_sub($(component).children(".obj-area"))
+          "body": _parsingResponseDOM_sub($(component).children(".obj-area"))
         });
         break;
       default:
@@ -169,15 +172,25 @@ _parsingResponseDOM_sub = (subDOM) => {
   return body_arr;
 }
 
-// JSON을 DOM으로 파싱
-_parsingResponseJSON = (json) => {
 
+// JSON을 DOM으로 파싱
+// -> 기존 handlebars 템플릿 말고 여는태그, 받는태그 나누어져있는 템플릿 새로 필요함
+_parsingResponseJSON = (response_arr) => {
+	for (i = 0 ; i < response_arr.length ; i++) {
+		var response = response_arr[i];
+		var context = {
+				
+		}
+		_getHTMLTemplate("",context);
+		console.log(response);
+	}
 }
 
 // JSON을 DOM으로 파싱 (재귀)
 _parsingResponseJSON_sub = (json_sub) => {
-
+	console.log("json_sub",json_sub);
 }
+
 
 // 현재 선택된 행 삭제 (questionList)
 // success: false , failed(no selection): true
@@ -257,6 +270,15 @@ _deleteEntityListCurrentRow = () => {
   return false;
 }
 
+// 현재 토픽 정보를가지고 토픽 생성 및 업데이트
+// savedJSON compare createdJSON
+_createTopic = () => {
+  var QuestionList = $("#questionList").datalist("getRows");
+  var EntityList = $("#entityList").datalist("getRows");
+  console.log(QuestionList);
+  Topic.createTopic(TopicInfo, QuestionList, EntityList);
+}
+
 // 모든 Question들의 index를 정렬
 _sort2All = (list) => {
   for (var i = 0; i < list.length; i++) {
@@ -317,6 +339,8 @@ _DOMLoaded = () => {
     // -> 추가할때 questionList를 refresh하는데 그러면 selection도 없어짐
     if (selected_row != null) {
       selected_row = selected_row.index;
+    } else {
+      selected_row = null;
     }
     console.log(selected_row);
     QL.addQuestion();
@@ -388,13 +412,8 @@ _DOMLoaded = () => {
 
   // 토픽 만들기
   $("#CreateTopic").on("click", function () {
-    var QuestionList = $("#questionList").datalist("getRows");
-    var EntityList = $("#entityList").datalist("getRows");
-
-
-
-    var obj = Topic.createTopic(TopicInfo, QuestionList, EntityList);
-    console.log(obj);
+    var json = _createTopic();
+    console.log(json);
   });
 
   /* FocusOut events Start */
@@ -479,6 +498,7 @@ _DOMLoaded = () => {
   })
 
   $(document).on("change", '.obj_image_resource', function (event) {
+	var thisImageElem = $(this);
     //이미지 파일 업로드시 유효성 검사, 이미지 바이너리화, 이미지 폼에 띄우기
 
     //이미지 유효성 검사
@@ -486,8 +506,6 @@ _DOMLoaded = () => {
     var file = jQuery(event.target);
     var fileDom = event.target;
     var imgPath = file.val();
-
-
 
     var ext = imgPath.slice(imgPath.lastIndexOf(".") + 1).toLowerCase();
 
@@ -506,7 +524,7 @@ _DOMLoaded = () => {
       //이미지 업로드
       $.ajax({
         type: "POST",
-        url: "http://192.168.10.132:8080/manage/upload/imageUpload.do",
+        url: "/manage/topic/imageUpload.do",
         enctype: 'multipart/form-data',
         data: formData,
         async: false,
@@ -543,8 +561,9 @@ _DOMLoaded = () => {
             }
 
             FR.readAsDataURL(fileDom.files[0]);
-
-            this.value = imageName;
+            
+            // 저장된 이미지 이름 binding
+            $(thisImageElem).attr("id",imageName);
           } else {
             // imageUploadFail(imgDiv, file);
           }

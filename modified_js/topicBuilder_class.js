@@ -68,11 +68,11 @@ function EntityValueInput() {
 }
 
 function Topic() {
-  this.createTopic = (TopicInfo, QuestionList, EntityList) => {
+  this.createTopic = (TopicInfo, questionList, EntityList) => {
     console.log("Topic.createTopic",TopicInfo);
-    console.log("Topic.createTopic",QuestionList);
+    console.log("Topic.createTopic",questionList);
     console.log("Topic.createTopic",EntityList);
-
+    
     var topic = new Object();
 
     // Topic Info //
@@ -93,13 +93,13 @@ function Topic() {
 
     // Question List //
     topic.QuestionList = new Array();
-    for (i = 0; i < QuestionList.length; i++) {
-      console.log(QuestionList[i]);
+    for (i = 0; i < questionList.length; i++) {
+      console.log(questionList[i]);
       topic.QuestionList.push({
-        name: QuestionList[i].question,
-        previous: QuestionList[i].previous,
-        accessModifier: QuestionList[i].accessModifier,
-        data: QuestionList[i].data
+        name: questionList[i].question,
+        previous: questionList[i].previous,
+        accessModifier: questionList[i].accessModifier,
+        data: questionList[i].data
       });
     }
     // Question List //

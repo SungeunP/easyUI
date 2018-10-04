@@ -1,0 +1,59 @@
+{
+  "topicName": "Topic1",
+  "TopicPublic": false,
+  "TopicDescription": "description",
+  "EntityList": [
+    {
+      "name": "엔티티1",
+      "value": "안녕|반가워|헬로"
+    },
+    {
+      "name": "엔티티2",
+      "value": "안녕|반가워|헬로"
+    }
+  ],
+  "QuestionList": [
+    {
+      "name": "질문1",
+      "previous": "질문2",
+      "accessModifier": false,
+      "data": {
+        "response": [
+          {
+            "layout": "HS",
+            "condition": "",
+            "body": [
+              {
+                "type": "text",
+                "value": "안녕하세요"
+              },
+              {
+                "type": "image",
+                "path": "<사전에 업로드하고 받아놓은 경로:str>",
+                "value": "<넘길 값:str>"
+              },
+              {
+                "type": "button",
+                "name": "buttonName",
+                "resource": "?",
+                "value": "value"
+              },
+              {
+                "type": "group",
+                "body": [
+                  // ... roof ... //
+                ]
+              }
+            ]
+          },
+          {
+            "temp" : "asdf"
+          },
+          {
+            "temp" : "fdsa"
+          }
+        ]
+      }
+    }
+  ]
+}

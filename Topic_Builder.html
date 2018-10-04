@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./css/topic_builder_bak.css">
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/bootstrap-theme.css">
+    <link rel="stylesheet" href="./css/easyui.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/topic_builder.js"></script>
+    <script src="./js/jquery.easyui.min.js"></script>
+    <script src="./js/script.js"></script>
+    <title>MIR Chat</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <header class="col-sm-12">
+            <h1><img src="./image/logo.png" alt="Logo"></h1>
+            <span class="manager">
+                <span class="bell">
+                    <button><i class="fas fa-bell"></i></button>
+                    <span class="notice-count">4</span>
+                    <ul class="notice hidden">
+                        <li class="notice-default">봇이 켜졌습니다.</li>
+                        <li class="notice-warning"><i class="fas fa-exclamation-triangle"></i> 봇이 꺼졌습니다.</li>
+                        <li class="notice-success"><i class="fas fa-check-square"></i> 토픽 생성에 성공하였습니다.</li>
+                        <li class="notice-error"><i class="fas fa-exclamation-circle"></i> 토픽 생성에 실패하였습니다.</li>
+                    </ul>
+                </span>
+                <span class="admin">Manager01
+                    <ul class="manager-func hidden">
+                        <li>로그아웃<i class="fas fa-power-off"></i></li>
+                    </ul>
+                </span>
+            </span>
+        </header>
+    </div>
+
+    <div class="row">
+        <div class="side-nav">
+            <ul>
+                <li><strong>매니저</strong>
+                    <ul>
+                        <li><a href="./Manager_List.html"><img src="./image/icon-manager.png" alt="매니저 리스트">매니저 리스트</a></li>
+                        <li><a href="./Manager_Create.html"><img src="./image/icon-create.png" alt="매니저 생성">매니저 생성</a></li>
+                    </ul>
+                </li>
+                <li><strong>봇</strong>
+                    <ul>
+                        <li><a href="./Bot_List.html"><img src="./image/icon-bot.png" alt="봇 리스트">봇 리스트</a></li>
+                        <li><a href="./Bot_Create.html"><img src="./image/icon-create.png" alt="봇 생성">봇 생성</a></li>
+                    </ul>
+                </li>
+                <li><strong>토픽</strong>
+                    <ul>
+                        <li><a href="./Topic_List.html"><img src="./image/icon-topic.png" alt="토픽 리스트">토픽 리스트</a></li>
+                        <li><a href="./Topic_Builder.html"><img src="./image/icon-create.png" alt="토픽 생성">토픽 생성</a></li>
+                    </ul>
+                </li>
+                <li><strong>함수</strong>
+                    <ul>
+                        <li><a href="./Func_List.html"><img src="./image/icon-func.png" alt="함수 리스트">함수 리스트</a></li>
+                        <li><a href="./Func_create.html"><img src="./image/icon-create.png" alt="함수 생성">함수 생성</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <span class="menu-arrow"></span>
+        </div>
+        
+        <!-- 메인 컨텐츠 시작 -->
+        <div class="contents col-sm-12 page-topic-builder">
+            <div class="row content-row">
+                <div class="col-sm-2">
+                   <!-- 질문 목록 시작 -->
+                    <div class="question-list">
+                        <p class="list-header">
+                            <strong>질문 목록</strong>
+                            <span><button type="button" class="searchvar-btn"><i class="fas fa-search"></i></button></span>
+                            <span><button type="button" class="list-btn"><i class="fas fa-caret-down"></i></button></span>
+                            <span class="hidden previous-close-btn"><button type="button"><i class="fas fa-caret-down"></i></button></span>
+                        </p>
+                        <ul class="list-contents">
+                            <li class="search"><input type="text" placeholder="검색어를 입력해 주십시오"><input type="submit" value="검색" class="btn-custom btn-custom-black"></li>
+                            <li class="highlight"><span>커피 주문</span></li>
+                        </ul>
+                    </div>
+                    <!-- 질문 목록 끝 -->
+                    
+                    <!-- 개체 목록 시작 -->
+                    <div class="array-list">
+                        <p class="list-header">
+                            <strong>개체 목록</strong>
+                            <span><button type="button" class="searchvar-btn"><i class="fas fa-search"></i></button></span>
+                            <span><button type="button" class="list-btn"><i class="fas fa-caret-down"></i></button></span>
+                        </p>
+                        <ul class="list-contents">
+                            <li class="search"><input type="text" placeholder="검색어를 입력해 주십시오"><input type="submit" value="검색" class="btn-custom btn-custom-black"></li>
+                            <li class="add-array highlight">
+                                <ul>
+                                    <li class="array-config-title">
+                                        <strong>개체명</strong>
+                                        <span class="btn-line">
+                                            <button class="btn-custom btn-custom-success add-array-btn">추가</button>
+                                            <button class="btn-custom btn-custom-default reset-array-btn">취소</button>
+                                        </span>
+                                    </li>
+                                    <li class="array-name"><input type="text" value="Coffee"></li>
+                                    <li class="array-config-title"><strong>개체 목록</strong></li>
+                                    <li class="easyui-panel">
+<!--                                        <textarea name="" id="" cols="28" rows="2" class="array-value">아이스 아메리카노|카페라떼|카푸치노</textarea>-->
+                                        <input class="easyui-tagbox" value="아이스 아메리카노, 카페라떼, 카푸치노">
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><span>Temperature<button class="array-config-btn"><i class="fas fa-cog"></i></button></span></li>
+                            <li><span>Cup<button class="array-config-btn"><i class="fas fa-cog"></i></button></span></li>
+                            <li><span>Perchase<button class="array-config-btn"><i class="fas fa-cog"></i></button></span></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 개체 목록 끝 -->
+                
+                <!-- 토픽 내용 시작 -->
+                <div class="col-sm-7 question-contents">
+                    <!-- 버튼 시작 -->
+                    <div class="btn-line">
+                        <button class="btn-custom btn-custom-black add-question-btn">대화 추가</button>
+                        <button class="btn-custom btn-custom-success">임시 저장</button>
+                        <button class="btn-custom btn-custom-default">임시 저장 불러오기</button>
+                        <button class="btn-custom btn-custom-success">생성</button>
+                        <button class="btn-custom btn-custom-danger">나가기</button>
+                    </div>
+                    <!-- 버튼 끝 -->
+                    
+                    <!-- 토픽 기본 정보 시작 -->
+                    <div class="topic-info">
+                        <ul>
+                            <li class="topic-name"><label for="">토픽 이름</label><input type="text" placeholder="토픽 이름"></li>
+                            <li class="topic-state">
+                                <span> 토픽 공개 여부</span>
+                                <select name="" id="">
+                                    <option value="">비공개</option>
+                                    <option value="">공개</option>
+                                </select>
+                            </li>
+                            <li class="topic-desc"><label for="">토픽 설명</label><input type="text" placeholder="토픽 설명"></li>
+                        </ul>
+                    </div>
+                    <!-- 토픽 기본 정보 끝 -->
+                    
+                    <!-- 토픽 세부 내용 시작 -->
+                    <div class="topic-contents">
+                        <div class="previous-list hidden">
+                            <h2>이전 질문 목록</h2>
+                            <ul>
+                            
+                            </ul>
+                        </div>
+                        <ul>
+                            <li class="question-text"><span>질문</span><input class="question" type="text" placeholder="질문을 입력해주십시오" value="커피 주문"></li>
+                            <li class="previous"><span>이전 질문</span><input type="text" placeholder="이전 질문을 선택해주십시오" readonly><button class="delete-previous-btn"><i class="fas fa-times"></i></button></li>
+                            <li class="question-state">
+                                <span>접근 허용 여부<button class="help-btn"><i class="fas fa-question-circle"></i></button></span>
+                                <p class="hidden">접근 허용 여부 도움말</p>
+                                <input type="checkbox" id="state-public">
+                                <label for="state-public" class="mc-checkbox"><span></span>공개</label>
+                            </li>
+                            <li class="question-redirect">
+                                <span>리다이렉트 사용</span>
+                                <input type="checkbox" id="use-redirect">
+                                <label for="use-redirect" class="mc-checkbox use-redirect"><span></span>사용</label>
+                                <p class="redirect-input hidden">
+                                    <input type="text">
+                                    <button class="delete-redirect-btn"><i class="fas fa-times"></i></button>
+                                </p>
+                            </li>
+                            <li><hr class="line"></li>
+                        </ul>
+                        <!-- 답변 추가 버튼 -->
+                        <button class="btn-custom btn-custom-black add-response-btn">답변 추가</button>
+                   
+                        <div class="response-contents">
+                            <div class="response">
+                                <h2>
+                                    <span>답변</span>
+                                    <select name="" id="">
+                                        <option value="default">기본</option>
+                                        <option value="hs">수평스크롤</option>
+                                        <option value="hp">수평배치</option>
+                                        <option value="vs">수직스크롤</option>
+                                        <option value="vp">수직배치</option>
+                                    </select>
+                                    <button class="delete-response-btn"><i class="fas fa-times"></i></button>
+                                </h2>
+                                <p><span>조건문</span><input type="text" placeholder="조건문을 입력해주십시오"></p>
+                                
+                                <!-- 오브젝트 추가 버튼 -->
+                                <div class='add-obj-btn'>
+                                    <button class="btn-custom btn-custom-success" type='button'>오브젝트 추가</button>
+                                    <ul>
+                                        <li class='add-obj-text'>텍스트</li>
+                                        <li class='add-obj-img'>이미지</li>
+                                        <li class='add-obj-button'>버튼</li>
+                                        <li class='add-obj-group'>그룹</li>
+                                    </ul>
+                                </div>
+                                
+<!--
+                                <div class="obj obj-group">
+                                    <h2>
+                                        <span>그룹</span>
+                                        <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+                                        <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+                                        <select name="" id="">
+                                            <option value="default">기본</option>
+                                            <option value="hs">수평스크롤</option>
+                                            <option value="hp">수평배치</option>
+                                            <option value="vs">수직스크롤</option>
+                                            <option value="vp">수직배치</option>
+                                        </select>
+                                        <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+                                    </h2>
+                                    
+                                     오브젝트 추가 버튼 
+                                    <div class='add-obj-btn'>
+                                        <button class="btn-custom btn-custom-success" type='button'>오브젝트 추가</button>
+                                        <ul>
+                                            <li class='add-obj-text'>텍스트</li>
+                                            <li class='add-obj-img'>이미지</li>
+                                            <li class='add-obj-button'>버튼</li>
+                                            <li class='add-obj-group'>그룹</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="obj obj-text">
+                                        <h2>
+                                            <span>텍스트</span>
+                                            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+                                            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+                                            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+                                        </h2>
+                                        <p><span>메시지</span><input type="text"></p>
+                                    </div>
+                                </div>
+                                
+                                <div class="obj obj-img">
+                                    <h2>
+                                        <span>이미지</span>
+                                        <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+                                        <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+                                        <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+                                    </h2>
+                                    
+                                    <p><img src="./image/image.png" alt="이미지 미리보기"></p>
+                                    <ul>
+                                        <li>
+                                            <p>이름</p>
+                                            <input type="text">
+                                        </li>
+                                        <li>
+                                            <p>리소스</p>
+                                            <input type="file">
+                                        </li>
+                                        <li>
+                                            <p>값</p>
+                                            <input type="text">
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="obj obj-btn">
+                                    <h2>
+                                        <span>버튼</span>
+                                        <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+                                        <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+                                        <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+                                    </h2>
+                                    
+                                    <ul>
+                                        <li>
+                                            <p>이름</p>
+                                            <input type="text">
+                                        </li>
+                                        <li>
+                                            <p>리소스</p>
+                                            <input type="text">
+                                        </li>
+                                        <li>
+                                            <p>값</p>
+                                            <input type="text">
+                                        </li>
+                                    </ul>
+                                </div>
+-->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 토픽 세부 내용 끝 -->
+                </div>
+                <!-- 토픽 내용 끝 -->
+                
+                <!-- 미리보기 시작 -->
+<!--
+                <div class="col-sm-3 preview-contents">
+                    <button class="btn-custom btn-custom-success preview-btn">미리보기 닫기 <i class="fas fa-caret-down"></i></button>
+                    <iframe src="" frameborder="0">
+                        
+                    </iframe>
+                </div>
+-->
+                <!-- 미리보기 끝 -->
+            </div>
+        </div>
+        <!-- 메인 컨텐츠 끝 -->
+    </div>
+</div>
+    
+<!-- handlebars script 시작 -->
+<script id="array-template" type="text/x-handlebars-template">
+    <ul>
+        <li class="array-config-title">
+            <strong>개체명</strong>
+            <span class="btn-line">
+                <button class="btn-custom btn-custom-success modify-array-btn">수정</button>
+                <button class="btn-custom btn-custom-default remove-array-btn">삭제</button>
+            </span>
+        </li>
+        <li class="array-name"><input type="text" value=""></li>
+        <li class="array-config-title"><strong>개체 목록</strong></li>
+        <li class="easyui-panel">
+            <input value="">
+        </li>
+    </ul>
+</script>
+
+<script id="question-template" type="text/x-handlebars-template">
+    <div class="topic-contents">
+        <div class="previous-list hidden">
+            <h2>이전 질문 목록</h2>
+            <ul>
+
+            </ul>
+        </div>
+        <ul>
+            <li class="question-text"><span>질문</span><input class="question" type="text" placeholder="질문을 입력해주십시오"></li>
+            <li class="previous"><span>이전 질문</span><input type="text" placeholder="이전 질문을 선택해주십시오" readonly><button class="delete-previous-btn"><i class="fas fa-times"></i></button></li>
+            <li class="question-state">
+                <span>접근 허용 여부<button class="help-btn"><i class="fas fa-question-circle"></i></button></span>
+                <p class="hidden">접근 허용 여부 도움말</p>
+                <input type="checkbox" id="state-public">
+                <label for="state-public" class="mc-checkbox"><span></span>공개</label>
+            </li>
+            <li><hr class="line"></li>
+        </ul>
+        <!-- 답변 추가 버튼 -->
+        <button class="btn-custom btn-custom-black add-response-btn">답변 추가</button>
+        <div class="response-contents">
+            <div class="response">
+                <h2>
+                    <span>답변</span>
+                    <select name="" id="">
+                        <option value="default">기본</option>
+                        <option value="hs">수평스크롤</option>
+                        <option value="hp">수평배치</option>
+                        <option value="vs">수직스크롤</option>
+                        <option value="vp">수직배치</option>
+                    </select>
+                    <button class="delete-response-btn"><i class="fas fa-times"></i></button>
+                </h2>
+                <p><span>조건문</span><input type="text" placeholder="조건문을 입력해주십시오"></p>
+
+                <!-- 오브젝트 추가 버튼 -->
+                <div class='add-obj-btn'>
+                    <button class="btn-custom btn-custom-success" type='button'>오브젝트 추가</button>
+                    <ul>
+                        <li class='add-obj-text'>텍스트</li>
+                        <li class='add-obj-img'>이미지</li>
+                        <li class='add-obj-button'>버튼</li>
+                        <li class='add-obj-group'>그룹</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="response-template" type="text/x-handlebars-template">
+    <div class="response">
+        <h2>
+            <span>답변</span>
+            <select name="" id="">
+                <option value="default">기본</option>
+                <option value="hs">수평스크롤</option>
+                <option value="hp">수평배치</option>
+                <option value="vs">수직스크롤</option>
+                <option value="vp">수직배치</option>
+            </select>
+            <button class="delete-response-btn"><i class="fas fa-times"></i></button>
+        </h2>
+        <p><span>조건문</span><input type="text" placeholder="조건문을 입력해주십시오"></p>
+
+        <!-- 오브젝트 추가 버튼 -->
+        <div class='add-obj-btn'>
+            <button class="btn-custom btn-custom-success" type='button'>오브젝트 추가</button>
+            <ul>
+                <li class='add-obj-text'>텍스트</li>
+                <li class='add-obj-img'>이미지</li>
+                <li class='add-obj-button'>버튼</li>
+                <li class='add-obj-group'>그룹</li>
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script id="text-template" type="text/x-handlebars-template">
+    <div class="obj obj-text">
+        <h2>
+            <span>텍스트</span>
+            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+        </h2>
+        <p><span>메시지</span><input type="text"></p>
+    </div>
+</script>
+
+<script id="img-template" type="text/x-handlebars-template">
+    <div class="obj obj-img">
+        <h2>
+            <span>이미지</span>
+            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+        </h2>
+
+        <p><img src="./image/image.png" alt="이미지 미리보기"></p>
+        <ul>
+            <li>
+                <p>이름</p>
+                <input type="text">
+            </li>
+            <li>
+                <p>리소스</p>
+                <input type="file">
+            </li>
+            <li>
+                <p>값</p>
+                <input type="text">
+            </li>
+        </ul>
+    </div>
+</script>
+
+<script id="btn-template" type="text/x-handlebars-template">
+    <div class="obj obj-btn">
+        <h2>
+            <span>버튼</span>
+            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+        </h2>
+
+        <ul>
+            <li>
+                <p>이름</p>
+                <input type="text">
+            </li>
+            <li>
+                <p>리소스</p>
+                <input type="text">
+            </li>
+            <li>
+                <p>값</p>
+                <input type="text">
+            </li>
+        </ul>
+    </div>
+</script>
+
+<script id="group-template" type="text/x-handlebars-template">
+    <div class="obj obj-group">
+        <h2>
+            <span>그룹</span>
+            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+            <select name="" id="">
+                <option value="default">기본</option>
+                <option value="hs">수평스크롤</option>
+                <option value="hp">수평배치</option>
+                <option value="vs">수직스크롤</option>
+                <option value="vp">수직배치</option>
+            </select>
+            <button class="delete-obj-btn"><i class="fas fa-times"></i></button>
+        </h2>
+
+        <!-- 오브젝트 추가 버튼 -->
+        <div class='add-obj-btn'>
+            <button class="btn-custom btn-custom-success" type='button'>오브젝트 추가</button>
+            <ul>
+                <li class='add-obj-text'>텍스트</li>
+                <li class='add-obj-img'>이미지</li>
+                <li class='add-obj-button'>버튼</li>
+                <li class='add-obj-group'>그룹</li>
+            </ul>
+        </div>
+    </div>
+</script>
+<!-- handlebars script 끝 -->
+<script src="./js/handlebars-v4.0.11.js"></script>
+</body>
+</html>

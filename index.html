@@ -65,33 +65,24 @@
   </script>
 
   <script id="button-template" type="text/x-handlebars-template">
-    <div class="obj obj-btn" style="border-style: solid; margin-bottom: 5px; margin-right: 5px;">
+    <div class="obj obj-button" style="border-style: solid; margin-bottom: 5px; margin-right: 5px;">
         <h2>
             <span>버튼</span>
             <button class="up-btn"><i class="fas fa-caret-up"></i></button>
             <button class="down-btn"><i class="fas fa-caret-down"></i></button>
             <button class="delete-obj-btn">X<i class="fas fa-times"></i></button>
         </h2>
-
-        <ul>
-            <li>
-                <p>이름</p>
-                <input type="text">
-            </li>
-            <li>
-                <p>리소스</p>
-                <input type="text">
-            </li>
-            <li>
-                <p>값</p>
-                <input type="text">
-            </li>
-        </ul>
+            <p>이름</p>
+            <input type="text" class="obj_button_name">
+            <p>리소스</p>
+            <input type="text" class="obj_button_resource">
+            <p>값</p>
+            <input type="text" class="obj_button_value">
     </div>
   </script>
 
   <script id="image-template" type="text/x-handlebars-template">
-    <div class="obj obj-img" style="border-style: solid; margin-bottom: 5px; margin-right: 5px;">
+    <div class="obj obj-image" style="border-style: solid; margin-bottom: 5px; margin-right: 5px;">
         <h2>
             <span>이미지</span>
             <button class="up-btn"><i class="fas fa-caret-up"></i></button>
@@ -100,20 +91,13 @@
         </h2>
 
         <p><img src="./image/image.png" alt="이미지 미리보기"></p>
-        <ul>
-            <li>
+        
                 <p>이름</p>
-                <input type="text">
-            </li>
-            <li>
+                <input type="text" class="obj_image_name">
                 <p>리소스</p>
-                <input type="file">
-            </li>
-            <li>
+                <input type="file" class="obj_image_resource">
                 <p>값</p>
-                <input type="text">
-            </li>
-        </ul>
+                <input type="text" class="obj_image_value">
     </div>
   </script>
 
@@ -188,6 +172,7 @@
       <option value="true">공개</option>
     </select>
   </div>
+  <!-- 토픽 설명 Input -->
   <div id="TopicDescription"></div><br />
   </div>
 
@@ -210,7 +195,7 @@
   </ul>
 
   <H2>질문 Response</H2>
-  <div>
+  <div id="QuestionResponse_div">
     <button id="AddResponse">답변 추가하기</button>
     <div id="QuestionResponse">
 
